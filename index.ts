@@ -24,17 +24,36 @@ const toggle = () => {
 v.addListener(({ name }) => {
   if (name === Keyboard.SPACE) { toggle() }
 })
+const options = {
+  autocenter: true,
+  range: 270
+}
 
-// g.connect()
+g.connect(options, function(err) {
+  g.forceFriction(0.5)
+  console.log('Ready')
+})
 
-setInterval(() => {
+
+function sleep(ms){
+  return new Promise(resolve=>setTimeout(resolve,ms))
+}
+setInterval(async () => {
   if (!isRunning) {
-    // g.autoCenterOn()
-    // g.forceOff()
+     g.leds('')  
+     g.forceConstant(0.5)
+     g.forceOff()
     return
   }
-
+ 
   consola.info('Running...')
-  // g.forceConstant(-0.5, -180)
-  // g.forceConstant(-0.5, 180)
-}, 50)
+   g.leds('1')
+   await sleep(50)
+   g.leds('111')
+   await sleep(50)
+   g.leds('00001')
+   await sleep(50)
+   g.forceConstant(0)
+   await sleep(300)
+   g.forceConstant(1)
+}, 600)
